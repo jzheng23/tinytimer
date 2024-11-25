@@ -1,6 +1,5 @@
 package com.jzheng.tinytimer.ui.navigation
 
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,16 +31,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import com.google.firebase.database.FirebaseDatabase
 import com.jzheng.tinytimer.data.Constants.defaultPadding
-import com.jzheng.tinytimer.data.DeviceInfo
-import com.jzheng.tinytimer.data.HostManager
 import com.jzheng.tinytimer.service.TimerService
-import com.jzheng.tinytimer.tools.DailyWorker
 import com.jzheng.tinytimer.tools.MyPermissionManager
 import com.jzheng.tinytimer.ui.ArrowCard
 import com.jzheng.tinytimer.ui.usePollState
-import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -133,10 +127,6 @@ fun LoginScreen(
                                 )
                                 Button(
                                     onClick = {
-                                        saveUserId(
-                                            userIdInput,
-                                            context
-                                        )
                                         showDialog = false
                                         viewModel.showStaticNotification()
                                         navController.navigate("home")
@@ -156,50 +146,3 @@ fun LoginScreen(
         }
     )
 }
-
-
-fun saveUserId(
-    userId: String,
-    context: Context
-) {
-    val userIdIsValidate: Boolean = validateUid(userId)
-    val isTester = isTester(userId)
-    val sharedPreferences =
-        context.getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
-    val editor = sharedPreferences.edit()
-    editor.putString("UID", userId)
-        .putBoolean("UID_valid", userIdIsValidate)
-        .putBoolean("is_tester", isTester)
-        .apply()
-    if (userIdIsValidate) {
-        DeviceInfoTracker.saveTimezoneToFirebase(userId, context)
-        DailyWorker.schedule(context)
-    }
-}
-
-fun isTester(userId: String?): Boolean {
-    return userId?.startsWith("te", ignoreCase = true) ?: false
-}
-
-fun validateUid(userId: String?): Boolean {
-    val pattern = "^[A-Za-z]{2}\\d{3}$"
-    val regex = pattern.toRegex()
-    return if (userId == null) {
-        false
-    } else {
-        regex.matches(userId)
-    }
-}
-
-object DeviceInfoTracker {
-    private val database = FirebaseDatabase.getInstance()
-    private val timezoneRef = database.getReference("timezones")
-    private val deviceInfoRef = database.getReference("device_info")
-
-    fun saveTimezoneToFirebase(userId: String, context: Context) {
-        val host = HostManager.getHost(context)
-        timezoneRef.child(userId).child(host).setValue(TimeZone.getDefault().id)
-        deviceInfoRef.child(userId).child(host).setValue(DeviceInfo.getAllInfo())
-    }
-}
-

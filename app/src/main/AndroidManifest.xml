@@ -33,10 +33,6 @@
             android:name=".service.TimerService"
             android:exported="false"
             android:foregroundServiceType="specialUse" />
-<!--        <service-->
-<!--            android:name=".service.MyForegroundService"-->
-<!--            android:exported="false"-->
-<!--            android:foregroundServiceType="specialUse" />-->
 
         <activity
             android:name=".MainActivity"
@@ -49,12 +45,5 @@
         </activity>
     </application>
 
-    <queries>
-        <!-- Declare the intent you want to query -->
-        <intent>
-            <action android:name="android.intent.action.SENDTO" />
-            <data android:scheme="mailto" />
-        </intent>
-    </queries>
 
 </manifest>

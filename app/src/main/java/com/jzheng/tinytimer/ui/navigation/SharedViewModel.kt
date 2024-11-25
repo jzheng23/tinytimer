@@ -17,11 +17,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.jzheng.tinytimer.R
-import com.jzheng.tinytimer.data.Constants.DEFAULT_ICON_NUMBER
-import com.jzheng.tinytimer.data.SettingsChangeLogger
 import com.jzheng.tinytimer.tools.MyPreferenceManager
 import com.jzheng.tinytimer.tools.NotificationHelper
-import kotlin.reflect.KProperty
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -44,41 +41,29 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     var isAllTested by mutableStateOf(false)
     var isConfirmed by mutableStateOf(false)
 
-    private fun createState(
-        settingName: String,
-        initialValue: Int
-    ) = if (uidValid) {
-        ObservedMutableIntState(userId, settingName, initialValue, context)
-    } else {
-        RegularMutableIntState(initialValue)
-    }
 
-    var messageFrequency by createState(
-        "messageFrequency",
+    var messageFrequency by mutableIntStateOf(
         MyPreferenceManager.getInt(
             context,
             context.getString(R.string.toast_setting),
             0
         )
     )
-    var animationFrequency by createState(
-        "animationFrequency",
+    var animationFrequency by mutableIntStateOf(
         MyPreferenceManager.getInt(
             context,
             context.getString(R.string.animation_setting),
             0
         )
     )
-    var soundFrequency by createState(
-        "soundFrequency",
+    var soundFrequency by mutableIntStateOf(
         MyPreferenceManager.getInt(
             context,
             context.getString(R.string.sound_setting),
             0
         )
     )
-    var vibrationFrequency by createState(
-        "vibrationFrequency",
+    var vibrationFrequency by mutableIntStateOf(
         MyPreferenceManager.getInt(
             context,
             context.getString(R.string.vibration_setting),
@@ -86,8 +71,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         )
     )
 
-    var thresholdInMinute by createState(
-        "thresholdInMinute",
+    var thresholdInMinute by mutableIntStateOf(
         MyPreferenceManager.getInt(
             context,
             context.getString(R.string.threshold_in_minute),
@@ -95,8 +79,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         )
     )
 
-    var selectedAnimation by createState(
-        "selectedAnimation",
+    var selectedAnimation by mutableIntStateOf(
         MyPreferenceManager.getInt(
             context,
             context.getString(R.string.selected_animation),
@@ -115,9 +98,9 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 context.getString(R.string.selected_animation)
             ) == 1
         ) {
-            notificationHelper.showCirclingAnimation(DEFAULT_ICON_NUMBER)
+            notificationHelper.showCirclingAnimation(0)
         } else {
-            notificationHelper.showBlinkingAnimation(DEFAULT_ICON_NUMBER)
+            notificationHelper.showBlinkingAnimation(0)
         }
     }
 
@@ -183,9 +166,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun testSound() {
-//        val notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-//        val ringtone = RingtoneManager.getRingtone(context, notificationSound)
-//        ringtone.play()
         notificationHelper.showNotification(
             0,
             soundEnabled = true,
@@ -257,43 +237,5 @@ class SharedViewModelFactory(private val application: Application) :
             return SharedViewModel(application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-
-interface IntStateDelegate {
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): Int
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Int)
-}
-
-class ObservedMutableIntState(
-    private val userId: String,
-    private val settingName: String,
-    initialValue: Int,
-    private val context: Context
-) : IntStateDelegate {
-    private val state = mutableIntStateOf(initialValue)
-
-    override operator fun getValue(thisRef: Any?, property: KProperty<*>): Int {
-        return state.intValue
-    }
-
-    override operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
-        if (state.intValue != value) {
-            state.intValue = value
-            SettingsChangeLogger.logSettingChange(userId, settingName, value, context)
-
-        }
-    }
-}
-
-class RegularMutableIntState(initialValue: Int) : IntStateDelegate {
-    private val state = mutableIntStateOf(initialValue)
-
-    override operator fun getValue(thisRef: Any?, property: KProperty<*>): Int {
-        return state.intValue
-    }
-
-    override operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
-        state.intValue = value
     }
 }

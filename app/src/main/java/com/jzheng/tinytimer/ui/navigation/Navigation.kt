@@ -29,20 +29,8 @@ fun Navigation() {
     NavHost(navController = navController, startDestination = "home") {
         fadeComposable("home") {
             HomeScreen(
-                navController = navController
-            )
-        }
-        fadeComposable("cheat") {
-            CheatScreen(
-                sharedPrefsViewModel,
-                navController
-            )
-        }
-
-        fadeComposable("content") {
-            ContentScreen(
-                viewModel = sharedViewModel,
-                navController
+                navController = navController,
+                sharedViewModel = sharedViewModel
             )
         }
         fadeComposable("review") {
@@ -55,30 +43,6 @@ fun Navigation() {
         // Tutorial pages
         fadeComposable("intro") {
             IntroPage(
-                navController
-            )
-        }
-        fadeComposable("threshold") {
-            ThresholdPage(
-                viewModel = sharedViewModel,
-                navController
-            )
-        }
-        fadeComposable("threshold_2") {
-            ThresholdPage2(
-                viewModel = sharedViewModel,
-                navController
-            )
-        }
-        fadeComposable("threshold_3") {
-            ThresholdPage3(
-                viewModel = sharedViewModel,
-                navController
-            )
-        }
-        fadeComposable("threshold_4") {
-            ThresholdPage4(
-                viewModel = sharedViewModel,
                 navController
             )
         }
@@ -104,30 +68,6 @@ fun Navigation() {
             VibrationPage(
                 viewModel = sharedViewModel,
                 navController
-            )
-        }
-        fadeComposable("survey1") {
-            SurveyScreen1(
-                navController = navController
-            )
-        }
-        fadeComposable("survey2") {
-            SurveyScreen2(
-                navController = navController
-            )
-        }
-        fadeComposable("survey3") {
-            SurveyScreen3(
-                navController = navController
-            )
-        }
-        fadeComposable("survey4") {
-            SurveyScreen4(
-                navController = navController
-            )
-        }
-        fadeComposable("finish") {
-            FinishScreen(
             )
         }
         fadeComposable("login") {

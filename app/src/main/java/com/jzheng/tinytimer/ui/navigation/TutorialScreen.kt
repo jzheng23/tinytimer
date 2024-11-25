@@ -8,12 +8,9 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Typeface
 import android.net.Uri
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,7 +19,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -41,22 +37,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.jzheng.tinytimer.R
-import com.jzheng.tinytimer.data.Constants.DEFAULT_ICON_NUMBER
 import com.jzheng.tinytimer.data.Constants.defaultPadding
-import com.jzheng.tinytimer.receiver.LocalScreenTracker
 import com.jzheng.tinytimer.ui.ButtonCard
-import com.jzheng.tinytimer.ui.InputCard
 import com.jzheng.tinytimer.ui.RadioButtonGroup
 import com.jzheng.tinytimer.ui.theme.TimerTheme
 
@@ -205,188 +195,9 @@ fun createIcon(): Bitmap {
 
     val textX = size / 2f
     val textY = size / 2f - (paint.descent() + paint.ascent()) / 2
-    canvas.drawText(DEFAULT_ICON_NUMBER.toString(), textX, textY, paint)
+    canvas.drawText(0.toString(), textX, textY, paint)
 
     return bitmap
-}
-
-@Composable
-fun ThresholdPage(
-    viewModel: SharedViewModel,
-    navController: NavController
-) {
-    TutorialPageTemplate(
-        title = "Threshold of session length",
-        description = stringResource(R.string.threshold),
-        isNextEnabled = true,
-        onPreviousClick = { navController.navigate("intro") },
-        onNextClick = { navController.navigate("threshold_2") },
-        navController = navController,
-        sharedViewModel = viewModel,
-        content = {
-            TableContent()
-            Text(
-                text = stringResource(R.string.table_desc),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-        }
-    )
-}
-
-
-@Composable
-fun ThresholdPage2(
-    viewModel: SharedViewModel,
-    navController: NavController
-) {
-    val context = LocalContext.current
-    val p80Duration = LocalScreenTracker.getPercentileDuration(context, 0.80)
-    TutorialPageTemplate(
-        title = "Threshold of session length",
-        description = stringResource(R.string.threshold),
-        isNextEnabled = true,
-        onPreviousClick = { navController.navigate("threshold") },
-        onNextClick = { navController.navigate("threshold_3") },
-        navController = navController,
-        sharedViewModel = viewModel,
-        content = {
-            TableContent(highlightRow = 5)
-            Text(
-                text = buildString {
-                    append(stringResource(R.string.table_desc_2_1))
-                    append(" ")
-                    append(p80Duration.toString())
-                    append(" ")
-                    append(stringResource(R.string.table_desc_2_2))
-                    append(" ")
-                    append(p80Duration.toString())
-                    append(" ")
-                    append(stringResource(R.string.table_desc_2_3))
-                },
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-        }
-    )
-}
-
-
-@Composable
-fun ThresholdPage3(
-    viewModel: SharedViewModel,
-    navController: NavController
-) {
-    val context = LocalContext.current
-    val p90Duration = LocalScreenTracker.getPercentileDuration(context, 0.90)
-    TutorialPageTemplate(
-        title = "Threshold of session length",
-        description = stringResource(R.string.threshold),
-        isNextEnabled = true,
-        onPreviousClick = { navController.navigate("threshold_2") },
-        onNextClick = { navController.navigate("threshold_4") },
-        navController = navController,
-        sharedViewModel = viewModel,
-        content = {
-            TableContent(highlightRow = 3)
-            Text(
-                text = buildString {
-                    append(stringResource(R.string.table_desc_3_1))
-                    append(" ")
-                    append(p90Duration.toString())
-                    append(" ")
-                    append(stringResource(R.string.table_desc_3_2))
-                    append(" ")
-                    append(p90Duration.toString())
-                    append(" ")
-                    append(stringResource(R.string.table_desc_3_3))
-                },
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-        }
-    )
-}
-
-
-@Composable
-fun ThresholdPage4(
-    viewModel: SharedViewModel,
-    navController: NavController
-) {
-    TutorialPageTemplate(
-        title = "Threshold of session length",
-        description = stringResource(R.string.threshold),
-        isNextEnabled = true,
-        onPreviousClick = { navController.navigate("threshold_3") },
-        onNextClick = { navController.navigate("content") },
-        navController = navController,
-        sharedViewModel = viewModel,
-        content = {
-            TableContent()
-            Text(
-                text = stringResource(R.string.table_desc_4),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            InputCard(
-                desc = "Set your threshold",
-                value = viewModel.thresholdInMinute.toString(),
-                label = "The threshold (in minutes)",
-                onValueChange = {
-                    viewModel.thresholdInMinute = it.toIntOrNull() ?: 0
-                    viewModel.saveThresholdInMinute()
-                },
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-        }
-    )
-}
-
-@Composable
-fun ContentScreen(
-    viewModel: SharedViewModel,
-    navController: NavController
-) {
-    TutorialPageTemplate(
-        title = "Attention signals",
-        description = "You have set the threshold to ${viewModel.thresholdInMinute} minutes. When the session duration surpasses ${viewModel.thresholdInMinute} minutes, you will see the following signals.",
-        isNextEnabled = true,
-        onPreviousClick = { navController.navigate("threshold_4") },
-        onNextClick = { navController.navigate("message") },
-        navController = navController,
-        sharedViewModel = viewModel(),
-        content = {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.Start
-            ) {
-                Spacer(modifier = Modifier.height(4.dp))
-//                ArtIconWithText(
-//                    painter = painterResource(id = R.drawable.art),
-//                    text = "Color change"
-//                )
-                ArtIconWithText(
-                    painter = painterResource(id = R.drawable.chat),
-                    text = "Toast message"
-                )
-                ArtIconWithText(
-                    painter = painterResource(id = R.drawable.animate),
-                    text = "Animation"
-                )
-                ArtIconWithText(
-                    painter = painterResource(id = R.drawable.volume),
-                    text = "Sound"
-                )
-                ArtIconWithText(
-                    painter = painterResource(id = R.drawable.vibrate),
-                    text = "Vibration"
-                )
-            }
-
-        },
-    )
 }
 
 @Composable
@@ -621,123 +432,3 @@ fun VibrationPage(
     }
 }
 
-
-@Composable
-fun TableContent(
-    highlightRow: Int? = null
-) {
-    val context = LocalContext.current
-    val tableData = LocalScreenTracker.getTableData(context)
-    // Sample data for the table
-//    val tableData = listOf(
-//        Pair("99", "0.5%"),
-//        Pair("64", "1%"),
-//        Pair("23", "5%"),
-//        Pair("13", "10%"),
-//        Pair("8", "15%"),
-//        Pair("5", "20%"),
-//        Pair("4", "25%"),
-//        Pair("3", "30%"),
-//        Pair("2", "40%"),
-//        Pair("1", "50%")
-//    )
-
-    // Column to display table rows
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        // Table header
-        TableRow(
-            header = true,
-            duration = "Duration (minute)",
-            percentage = "% above the duration"
-        )
-        // Table rows
-        tableData.forEachIndexed { index, (duration, percentage) ->
-            TableRow(
-                header = false,
-                duration = duration,
-                percentage = percentage,
-                isHighlighted = index == highlightRow
-            )
-        }
-    }
-}
-
-@Composable
-fun TableRow(
-    header: Boolean,
-    duration: String,
-    percentage: String,
-    isHighlighted: Boolean = false
-) {
-    val borderColor = MaterialTheme.colorScheme.outline
-    val backgroundColor = if (isHighlighted) {
-        MaterialTheme.colorScheme.primary
-    } else {
-        MaterialTheme.colorScheme.surface
-    }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(BorderStroke(1.dp, borderColor))
-            .background(backgroundColor),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .border(BorderStroke(1.dp, Color.Black))
-                .padding(2.dp)
-        ) {
-            Text(
-                text = duration,
-                style = if (header) MaterialTheme.typography.bodyLarge else MaterialTheme.typography.bodyMedium,
-                fontSize = 14.sp,
-                color = if (isHighlighted) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .align(Alignment.CenterEnd)
-            )
-        }
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .border(BorderStroke(1.dp, borderColor))
-                .padding(2.dp)
-        ) {
-            Text(
-                text = percentage,
-                style = if (header) MaterialTheme.typography.bodyLarge else MaterialTheme.typography.bodyMedium,
-                fontSize = 14.sp,
-                color = if (isHighlighted) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .align(Alignment.CenterEnd)
-            )
-        }
-    }
-}
-
-
-@Composable
-fun ArtIconWithText(
-    painter: Painter,
-    text: String
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(8.dp)
-    ) {
-        Image(
-            painter = painter,
-            contentDescription = "Art icon",
-            modifier = Modifier.size(24.dp),
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = text)
-    }
-}

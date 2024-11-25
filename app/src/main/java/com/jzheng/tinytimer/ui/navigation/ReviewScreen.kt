@@ -1,7 +1,5 @@
 package com.jzheng.tinytimer.ui.navigation
 
-import android.content.IntentFilter
-import android.media.AudioManager
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,13 +20,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.registerReceiver
 import androidx.navigation.NavController
 import com.jzheng.tinytimer.R
-import com.jzheng.tinytimer.receiver.RingerModeReceiver
 import com.jzheng.tinytimer.tools.MyPreferenceManager
-import com.jzheng.tinytimer.tools.SurveyWorker
 import com.jzheng.tinytimer.ui.InputCard
 import com.jzheng.tinytimer.ui.RadioButtonGroup
 import com.jzheng.tinytimer.ui.ReviewCard
@@ -158,14 +152,6 @@ fun ReviewScreen(
                         onClick = {
                             sharedViewModel.isConfirmed = true
                             MyPreferenceManager.setBoolean(context, "tutorial_completed", true)
-                            SurveyWorker.scheduleNotification(context)
-                            // In TimerService.onCreate()
-                            registerReceiver(
-                                context,
-                                RingerModeReceiver(),
-                                IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION),
-                                ContextCompat.RECEIVER_NOT_EXPORTED
-                            )
                             navController.navigate("home")
                         },
                         modifier = Modifier.fillMaxWidth()
