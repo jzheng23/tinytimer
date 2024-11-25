@@ -16,16 +16,42 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.jzheng.tinytimer.R
 import com.jzheng.tinytimer.tools.MyPreferenceManager
 import com.jzheng.tinytimer.tools.NotificationHelper
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context = getApplication<Application>()
     private val notificationHelper = NotificationHelper(getApplication())
-    private val userId = MyPreferenceManager.getString(context, "UID", "")
-    private val uidValid = MyPreferenceManager.getBoolean(context, "UID_valid", false)
+    private val _isTimerEnabled = MutableStateFlow(false)
+    val isTimerEnabled = _isTimerEnabled.asStateFlow()
+
+    fun updateTimerEnabled(newValue: Boolean) {
+        viewModelScope.launch {
+            _isTimerEnabled.value = newValue
+            MyPreferenceManager.setBoolean(
+                context,
+                context.getString(R.string.is_timer_enabled),
+                newValue
+            )
+            if (newValue) showStaticNotification()
+            else cancelStaticNotification()
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            _isTimerEnabled.value = MyPreferenceManager.getBoolean(
+                context,
+                context.getString(R.string.is_timer_enabled)
+            )
+        }
+    }
 
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     val options = listOf(
@@ -224,6 +250,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             options[2] -> 2
             else -> 0
         }
+    }
+
+    fun cancelStaticNotification() {
+        notificationHelper.clearNotification()
     }
 
 }

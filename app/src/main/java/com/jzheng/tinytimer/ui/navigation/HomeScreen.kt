@@ -17,29 +17,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,8 +40,8 @@ import com.jzheng.tinytimer.R
 import com.jzheng.tinytimer.data.Constants.defaultPadding
 import com.jzheng.tinytimer.service.TimerService
 import com.jzheng.tinytimer.tools.MyPermissionManager
-import com.jzheng.tinytimer.tools.MyPreferenceManager
 import com.jzheng.tinytimer.ui.ArrowCard
+import com.jzheng.tinytimer.ui.SwitchCard
 import com.jzheng.tinytimer.ui.usePollState
 
 
@@ -64,6 +56,7 @@ fun HomeScreen(
     val sharedPrefsViewModel: SharedPrefsViewModel = viewModel(
         factory = SharedPrefsViewModelFactory(context2)
     )
+    val isTimerEnabled by sharedViewModel.isTimerEnabled.collectAsState()
     val notificationAllowed by usePollState {
         MyPermissionManager.checkNotificationPermission(context)
     }
@@ -107,19 +100,14 @@ fun HomeScreen(
                             .fillMaxSize(),
                         horizontalAlignment = Alignment.Start
                     ) {
-                        Button(
-                            onClick = {
-                                MyPreferenceManager.setBoolean(
-                                    context,
-                                    context.getString(R.string.is_timer_enabled),
-                                    true
-                                )
-                                sharedViewModel.showStaticNotification()
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(text = "Start Timer")
-                        }
+
+
+                        SwitchCard(
+                            desc = "Start Timer",
+                            isChecked = isTimerEnabled,
+                            onCheckedChange = { sharedViewModel.updateTimerEnabled(it) }
+                        )
+
                         Button(
                             onClick = { navController.navigate("review") },
                             modifier = Modifier.fillMaxWidth()
@@ -128,7 +116,7 @@ fun HomeScreen(
                         }
                     }
 
-                    LogoAndContact(navController)
+                    LogoAndContact()
                 }
             }
         }
@@ -138,12 +126,10 @@ fun HomeScreen(
 
 @Composable
 fun LogoAndContact(
-    navController: NavHostController
+
 ) {
     val context = LocalContext.current
-    var showCheatDialog by remember { mutableStateOf(false) }
     val url = stringResource(id = R.string.url_privacy_policy)
-    var password by remember { mutableStateOf("") }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
