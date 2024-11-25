@@ -11,9 +11,9 @@ android {
         applicationId = "com.jzheng.tinytimer"
         minSdk = 26
         targetSdk = 35
-        versionCode = 15
+        versionCode = 1
 
-        versionName = "1.76 Release"
+        versionName = "0.1 Beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
