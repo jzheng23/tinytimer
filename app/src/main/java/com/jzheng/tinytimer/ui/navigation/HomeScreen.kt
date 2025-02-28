@@ -1,6 +1,5 @@
 package com.jzheng.tinytimer.ui.navigation
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -34,7 +33,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.jzheng.tinytimer.R
 import com.jzheng.tinytimer.data.Constants.defaultPadding
@@ -52,10 +50,7 @@ fun HomeScreen(
 ) {
 //    val isTester = false
     val context = LocalContext.current
-    val context2 = LocalContext.current.applicationContext as Application
-    val sharedPrefsViewModel: SharedPrefsViewModel = viewModel(
-        factory = SharedPrefsViewModelFactory(context2)
-    )
+
     val isTimerEnabled by sharedViewModel.isTimerEnabled.collectAsState()
     val notificationAllowed by usePollState {
         MyPermissionManager.checkNotificationPermission(context)

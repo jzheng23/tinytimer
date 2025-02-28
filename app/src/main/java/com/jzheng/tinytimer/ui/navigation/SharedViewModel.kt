@@ -252,7 +252,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun cancelStaticNotification() {
+    private fun cancelStaticNotification() {
         notificationHelper.clearNotification()
     }
 

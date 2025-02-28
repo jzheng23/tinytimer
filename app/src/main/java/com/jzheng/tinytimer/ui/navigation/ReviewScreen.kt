@@ -67,7 +67,7 @@ fun ReviewScreen(
                             Spacer(modifier = Modifier.height(10.dp))
                             ReviewCard(
                                 title = "Threshold",
-                                onAuthClick = { navController.navigate("threshold_4") }
+                                onAuthClick = {  }
                             ) {
                                 InputCard(
                                     desc = "Set your threshold",

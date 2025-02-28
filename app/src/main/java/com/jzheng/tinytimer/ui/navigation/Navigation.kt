@@ -17,10 +17,6 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun Navigation() {
     val context = LocalContext.current
-    val context2 = LocalContext.current.applicationContext as Application
-    val sharedPrefsViewModel: SharedPrefsViewModel = viewModel(
-        factory = SharedPrefsViewModelFactory(context2)
-    )
     val sharedViewModel: SharedViewModel = viewModel(
         factory = SharedViewModelFactory(context.applicationContext as Application)
     )
@@ -40,18 +36,13 @@ fun Navigation() {
             )
         }
 
-        // Tutorial pages
-        fadeComposable("intro") {
-            IntroPage(
-                navController
-            )
-        }
         fadeComposable("message") {
             MessagePage(
                 viewModel = sharedViewModel,
                 navController
             )
         }
+
         fadeComposable("animation") {
             AnimationPage(
                 viewModel = sharedViewModel,
@@ -68,12 +59,6 @@ fun Navigation() {
             VibrationPage(
                 viewModel = sharedViewModel,
                 navController
-            )
-        }
-        fadeComposable("login") {
-            LoginScreen(
-                navController = navController,
-                viewModel = sharedViewModel
             )
         }
     }

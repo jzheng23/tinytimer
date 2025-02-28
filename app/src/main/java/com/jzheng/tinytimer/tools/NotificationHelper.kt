@@ -35,7 +35,7 @@ class NotificationHelper(private val context: Context) {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     private val channelId = "default"
 
-    val intent = Intent(context, MainActivity::class.java).apply {
+    private val intent = Intent(context, MainActivity::class.java).apply {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 //            putExtra("openSurvey", true)
     }
@@ -299,17 +299,6 @@ class NotificationHelper(private val context: Context) {
         canvas.drawText(numberIcon.toString(), textX, textY, textPaint)
 
         return IconCompat.createWithBitmap(bitmap)
-    }
-
-    fun showSurveyNotification() {
-        val notification =
-            NotificationCompat.Builder(context, channelId).setContentTitle("Survey Available")
-                .setContentText("Please complete the survey. The procedure will stay paused until you complete the survey.")
-                .setSmallIcon(R.drawable.chat).setAutoCancel(true).setContentIntent(pendingIntent)
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).build()
-
-        notificationManager.notify(2, notification) // Using ID 2 for survey notification
-        Log.d("NotificationHelper", "Survey notification shown")
     }
 
 }
