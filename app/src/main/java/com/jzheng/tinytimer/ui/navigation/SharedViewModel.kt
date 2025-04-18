@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
-import android.net.Uri
 import android.os.Build
 import android.os.CombinedVibration
 import android.os.VibrationEffect
@@ -23,6 +22,7 @@ import com.jzheng.tinytimer.tools.NotificationHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import androidx.core.net.toUri
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -114,8 +114,8 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     )
 
 
-    fun showStaticNotification() {
-        notificationHelper.showStaticNotification()
+    private fun showStaticNotification() {
+        notificationHelper.showNotification()
     }
 
     fun testAnimation() {
@@ -235,7 +235,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     fun openVideo() {
         val url = context.getString(R.string.url_ringer_mode)
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = Intent(Intent.ACTION_VIEW, url.toUri())
             context.startActivity(intent)
         } catch (e: Exception) {
             // Handle the exception when no Activity can handle the Intent

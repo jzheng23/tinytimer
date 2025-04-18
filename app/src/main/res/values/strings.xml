@@ -28,7 +28,7 @@
     <string name="animation">The icon has some animations after the current session reaches the threshold.</string>
     <string name="play_sound">The app plays a sound after the current session reaches the threshold.</string>
     <string name="play_vib">The app plays a vibration after the current session reaches the threshold.</string>
-    <string name="threshold">The table outlines the percentiles of your phone usage session durations over the last two weeks. </string>
+    <string name="threshold">The threshold is when you are going to receive the attention signals. For example, if you set the threshold to 30 minutes, you will receive the attention signals after the current session reaches 30 minutes.</string>
     <string name="review">Please review and confirm. During the next week, you can always come back to change your settings. </string>
     <string name="review_2">Please review and confirm. </string>
     <string name="threshold_in_minute">threshold_in_minute</string>
@@ -38,14 +38,7 @@
     <string name="vibration_setting">vibration_setting</string>
     <string name="sound_permission">Please unmute the phone for testing. Doing so will also allow other app to play notification sounds and vibrations. </string>
     <string name="vibration_permission">Please enable vibrations for testing. Doing so will also allow other app to play vibrations. </string>
-    <string name="table_desc">Let\'s see some examples about how to set the threshold.</string>
-    <string name="table_desc_2_1">For example, approximately 20% of your sessions lasted longer than</string>
-    <string name="table_desc_2_2">minutes. If you set the threshold to</string>
-    <string name="table_desc_2_3">minutes, about one in five sessions will exceed this duration, at which point you will see those attention signals.</string>
-    <string name="table_desc_3_1">Similarly, approximately 10% of your sessions lasted longer than</string>
-    <string name="table_desc_3_2">minutes. If you set the threshold to</string>
-    <string name="table_desc_3_3">minutes, about one in ten sessions will exceed this duration, at which point you will see those attention signals.</string>
-    <string name="table_desc_4">Now, please set your own threshold.</string>
+    <string name="table_desc_4">Please set your own threshold.</string>
     <string name="tutorial_confirm">This tutorial will take up to 10 minutes. You will experience several attention signals (i.e., color change, toast message, animation, sound, and vibration). Please find some place quiet before starting the tutorial. Are you ready?</string>
     <string name="url_privacy_policy">https://sites.google.com/umd.edu/timer/privacy-policy</string>
     <string name="url_ringer_mode">https://www.youtube.com/watch?v=o9kYi-yYmmM</string>

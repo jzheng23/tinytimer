@@ -28,6 +28,7 @@ import androidx.core.graphics.drawable.IconCompat
 import com.jzheng.tinytimer.MainActivity
 import com.jzheng.tinytimer.R
 import com.jzheng.tinytimer.service.TimerService
+import androidx.core.graphics.createBitmap
 
 class NotificationHelper(private val context: Context) {
     private val notificationManager =
@@ -212,7 +213,7 @@ class NotificationHelper(private val context: Context) {
 
 
         val size = 192 // Set the size of the icon (in pixels)
-        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(size, size)
         val canvas = Canvas(bitmap)
 
         val backgroundPaint = Paint().apply {

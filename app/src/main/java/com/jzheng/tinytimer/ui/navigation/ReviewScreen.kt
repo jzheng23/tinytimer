@@ -53,21 +53,15 @@ fun ReviewScreen(
                     Column {
                         with(sharedViewModel) {
                             Text(
-                                text = "Settings review",
+                                text = "Attention signals",
                                 style = MaterialTheme.typography.headlineSmall,
                                 modifier = Modifier.padding(bottom = 16.dp),
                                 textAlign = TextAlign.Center
                             )
-                            Text(
-                                text = if (isConfirmed) stringResource(id = R.string.review_2) else stringResource(
-                                    R.string.review
-                                ),
-                                style = MaterialTheme.typography.bodyLarge
-                            )
                             Spacer(modifier = Modifier.height(10.dp))
                             ReviewCard(
                                 title = "Threshold",
-                                onAuthClick = {  }
+                                onAuthClick = { navController.navigate("threshold")  }
                             ) {
                                 InputCard(
                                     desc = "Set your threshold",

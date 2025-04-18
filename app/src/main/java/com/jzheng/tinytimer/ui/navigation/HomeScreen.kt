@@ -71,7 +71,7 @@ fun HomeScreen(
             if (!notificationAllowed) {
                 ArrowCard(
                     title = "Permission",
-                    desc = "Please grant notification permission to Timer",
+                    desc = "Please grant notification permission to TinyTimer",
                     onAuthClick = {
                         MyPermissionManager.requestNotificationPermission(context)
                         context.startForegroundService(
@@ -98,7 +98,7 @@ fun HomeScreen(
 
 
                         SwitchCard(
-                            desc = "Start Timer",
+                            desc = "Show current session length",
                             isChecked = isTimerEnabled,
                             onCheckedChange = { sharedViewModel.updateTimerEnabled(it) }
                         )
@@ -107,7 +107,7 @@ fun HomeScreen(
                             onClick = { navController.navigate("review") },
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text(text = "Settings")
+                            Text(text = "Attention signals")
                         }
                     }
 

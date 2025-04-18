@@ -2,23 +2,14 @@ package com.jzheng.tinytimer.ui.navigation
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.RectF
-import android.graphics.Typeface
-import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -34,19 +25,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.core.net.toUri
 import androidx.navigation.NavController
 import com.jzheng.tinytimer.R
 import com.jzheng.tinytimer.data.Constants.defaultPadding
 import com.jzheng.tinytimer.ui.ButtonCard
+import com.jzheng.tinytimer.ui.InputCard
 import com.jzheng.tinytimer.ui.RadioButtonGroup
 import com.jzheng.tinytimer.ui.theme.TimerTheme
 
@@ -54,11 +42,11 @@ import com.jzheng.tinytimer.ui.theme.TimerTheme
 fun TutorialPageTemplate(
     title: String,
     description: String,
-    isNextEnabled: Boolean,
-    onPreviousClick: () -> Unit,
-    onNextClick: () -> Unit,
+//    isNextEnabled: Boolean,
+//    onPreviousClick: () -> Unit,
+//    onNextClick: () -> Unit,
     navController: NavController,
-    sharedViewModel: SharedViewModel,
+//    sharedViewModel: SharedViewModel,
     content: @Composable () -> Unit,
 ) {
     TimerTheme {
@@ -94,110 +82,17 @@ fun TutorialPageTemplate(
                         content()
                     }
 
-                    if (!sharedViewModel.isAllTested) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 16.dp),
-                            horizontalArrangement = Arrangement.spacedBy(defaultPadding * 2)
-                        ) {
-                            Button(
-                                onClick = onPreviousClick,
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                Text("Previous")
-                            }
-
-                            Button(
-                                onClick = onNextClick,
-                                enabled = isNextEnabled,
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                Text("Next")
-                            }
-                        }
-                    } else {
-                        // Show Home button if `showNavigationButtons` is false
-                        Button(
-                            onClick = { navController.navigate("review") },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("Back to review")
-                        }
+                    Button(
+                        onClick = { navController.navigate("review") },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Back to review")
                     }
                 }
             }
         }
 
     }
-}
-
-
-@Composable
-fun IntroPage(
-    navController: NavController
-) {
-    TutorialPageTemplate(
-        title = "Threshold-based signals",
-        description = stringResource(R.string.intro_features),
-        isNextEnabled = true,
-        onPreviousClick = { navController.navigate("home") },
-        onNextClick = { navController.navigate("threshold") },
-        navController = navController,
-        sharedViewModel = viewModel(),
-        content = {
-            Spacer(modifier = Modifier.height(8.dp))
-            Image(
-                bitmap = createIcon().asImageBitmap(),
-                contentDescription = "Art icon",
-                modifier = Modifier.size(24.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-            )
-            Spacer(modifier = Modifier.height(defaultPadding * 2))
-            Text(
-                text = stringResource(R.string.intro_features_2),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Spacer(modifier = Modifier.height(defaultPadding * 2))
-            Text(
-                text = stringResource(R.string.intro_features_3),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Spacer(modifier = Modifier.height(defaultPadding * 2))
-            Text(
-                text = stringResource(R.string.intro_features_4),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-        },
-    )
-}
-
-fun createIcon(): Bitmap {
-    val size = 192
-    val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
-    val canvas = Canvas(bitmap)
-
-    val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    paint.color = Color.White.toArgb()
-    paint.style = Paint.Style.STROKE
-    paint.strokeWidth = size * 0.05f
-
-    // Draw rounded rectangle
-    val rect = RectF(size * 0.05f, size * 0.05f, size * 0.95f, size * 0.95f)
-    val cornerRadius = size * 0.3f
-    canvas.drawRoundRect(rect, cornerRadius, cornerRadius, paint)
-
-    // Draw text
-    paint.style = Paint.Style.FILL
-    paint.textSize = size * 0.65f
-    paint.textAlign = Paint.Align.CENTER
-    paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-
-    val textX = size / 2f
-    val textY = size / 2f - (paint.descent() + paint.ascent()) / 2
-    canvas.drawText(0.toString(), textX, textY, paint)
-
-    return bitmap
 }
 
 @Composable
@@ -208,11 +103,7 @@ fun MessagePage(
     TutorialPageTemplate(
         title = "Toast message",
         description = stringResource(R.string.toast_message_test),
-        isNextEnabled = viewModel.isMessageTested,
-
-        onPreviousClick = { navController.navigate("content") },
-        onNextClick = { navController.navigate("animation") },
-        sharedViewModel = viewModel,
+//        sharedViewModel = viewModel,
         navController = navController
     ) {
         ButtonCard(
@@ -242,11 +133,7 @@ fun AnimationPage(
     TutorialPageTemplate(
         title = "Animation",
         description = stringResource(R.string.animation),
-        isNextEnabled = viewModel.isAnimationTested,
-
-        onPreviousClick = { navController.navigate("message") },
-        onNextClick = { navController.navigate("sound") },
-        sharedViewModel = viewModel,
+//        sharedViewModel = viewModel,
         navController = navController,
     ) {
         with(viewModel) {
@@ -288,10 +175,7 @@ fun SoundPage(
     TutorialPageTemplate(
         title = "Sound",
         description = stringResource(R.string.play_sound),
-        isNextEnabled = viewModel.isSoundTested,
-        onPreviousClick = { navController.navigate("animation") },
-        onNextClick = { navController.navigate("vibration") },
-        sharedViewModel = viewModel,
+//        sharedViewModel = viewModel,
         navController = navController
     ) {
         var showDialog by remember { mutableStateOf(false) }
@@ -356,7 +240,7 @@ fun openMode(
 ) {
     val url = context.getString(R.string.url_ringer_mode)
     try {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
         context.startActivity(intent)
     } catch (e: Exception) {
         // Handle the exception when no Activity can handle the Intent
@@ -371,10 +255,7 @@ fun VibrationPage(
     TutorialPageTemplate(
         title = "Vibration",
         description = stringResource(R.string.play_vib),
-        isNextEnabled = viewModel.isVibrationTested,
-        onPreviousClick = { navController.navigate("sound") },
-        onNextClick = { navController.navigate("review") },
-        sharedViewModel = viewModel,
+//        sharedViewModel = viewModel,
         navController = navController
     ) {
         val context = LocalContext.current
@@ -432,3 +313,30 @@ fun VibrationPage(
     }
 }
 
+
+@Composable
+fun ThresholdPage(
+    viewModel: SharedViewModel,
+    navController: NavController
+) {
+    TutorialPageTemplate(
+        title = "Threshold of session length",
+        description = stringResource(R.string.threshold),
+        navController = navController,
+//        sharedViewModel = viewModel,
+        content = {
+
+            Spacer(modifier = Modifier.height(10.dp))
+            InputCard(
+                desc = "Set your threshold",
+                value = viewModel.thresholdInMinute.toString(),
+                label = "The threshold (in minutes)",
+                onValueChange = {
+                    viewModel.thresholdInMinute = it.toIntOrNull() ?: 0
+                    viewModel.saveThresholdInMinute()
+                },
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+    )
+}

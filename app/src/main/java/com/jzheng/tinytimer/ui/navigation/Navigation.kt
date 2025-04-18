@@ -61,6 +61,13 @@ fun Navigation() {
                 navController
             )
         }
+        fadeComposable("threshold") {
+            ThresholdPage(
+                viewModel = sharedViewModel,
+                navController
+            )
+        }
+
     }
 }
 
