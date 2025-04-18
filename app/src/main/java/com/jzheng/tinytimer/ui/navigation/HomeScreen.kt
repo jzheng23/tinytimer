@@ -41,6 +41,7 @@ import com.jzheng.tinytimer.tools.MyPermissionManager
 import com.jzheng.tinytimer.ui.ArrowCard
 import com.jzheng.tinytimer.ui.SwitchCard
 import com.jzheng.tinytimer.ui.usePollState
+import androidx.core.net.toUri
 
 
 @Composable
@@ -188,7 +189,7 @@ fun LogoAndContact(
                 modifier = Modifier
                     .clickable {
                         try {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                            val intent = Intent(Intent.ACTION_VIEW, url.toUri())
                             context.startActivity(intent)
                         } catch (e: Exception) {
                             // Handle the exception when no Activity can handle the Intent

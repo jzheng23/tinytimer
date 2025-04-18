@@ -17,11 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.jzheng.tinytimer.R
 import com.jzheng.tinytimer.tools.MyPreferenceManager
 import com.jzheng.tinytimer.ui.InputCard
 import com.jzheng.tinytimer.ui.RadioButtonGroup
@@ -61,7 +59,7 @@ fun ReviewScreen(
                             Spacer(modifier = Modifier.height(10.dp))
                             ReviewCard(
                                 title = "Threshold",
-                                onAuthClick = { navController.navigate("threshold")  }
+                                onAuthClick = { navController.navigate("threshold") }
                             ) {
                                 InputCard(
                                     desc = "Set your threshold",
