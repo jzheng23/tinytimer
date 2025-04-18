@@ -19,11 +19,6 @@
     <string name="circling_phases">circling_phases</string>
     <string name="blinking_times">blinking_times</string>
     <string name="icon_corner_radius">icon_corner_radius</string>
-    <string name="intro_features">For the last week, you have seen the icon displaying the current session length in minutes. Like this: </string>
-    <string name="intro_features_2">In the next week, we will add some attention signals upon the icon, especially when the session length passes a certain threshold, so you will be notified. </string>
-    <string name="intro_features_3">We will show you some of the attention signals one by one. You will decide whether and how often you want to receive each signal. </string>
-    <string name="intro_features_4">In real phone usage, those signals will only be present after the session length reaches the threshold.</string>
-    <string name="color_change">The icon becomes red after the current session reaches the threshold.</string>
     <string name="toast_message_test">The app shows a message after the current session reaches the threshold.</string>
     <string name="animation">The icon has some animations after the current session reaches the threshold.</string>
     <string name="play_sound">The app plays a sound after the current session reaches the threshold.</string>
@@ -39,19 +34,8 @@
     <string name="sound_permission">Please unmute the phone for testing. Doing so will also allow other app to play notification sounds and vibrations. </string>
     <string name="vibration_permission">Please enable vibrations for testing. Doing so will also allow other app to play vibrations. </string>
     <string name="table_desc_4">Please set your own threshold.</string>
-    <string name="tutorial_confirm">This tutorial will take up to 10 minutes. You will experience several attention signals (i.e., color change, toast message, animation, sound, and vibration). Please find some place quiet before starting the tutorial. Are you ready?</string>
     <string name="url_privacy_policy">https://sites.google.com/umd.edu/timer/privacy-policy</string>
     <string name="url_ringer_mode">https://www.youtube.com/watch?v=o9kYi-yYmmM</string>
-    <string name="url_survey1">https://umdsurvey.umd.edu/jfe/form/SV_9M3AzRhuuJkrI22</string>
-    <string name="rainbow">Rainbow</string>
-    <string name="survey1_instruction">Make sure you are connected to the internet. Click the link below to open the survey in a browser. When you are done, paste the confirmation code and click confirm.</string>
-    <string name="instruction_survey2">Reflect on your experience with trying to control your phone usage in the last week, and rate your agreement with the following statements.</string>
-    <string name="survey1_completed">survey1_completed</string>
-    <string name="survey2_completed">survey2_completed</string>
-    <string name="survey3_completed">survey3_completed</string>
-    <string name="survey4_completed">survey4_completed</string>
-    <string name="tutorial_completed">tutorial_completed</string>
-    <string name="day_count">day_count</string>
 
 
 </resources>
