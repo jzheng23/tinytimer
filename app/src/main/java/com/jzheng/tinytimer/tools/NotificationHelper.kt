@@ -20,7 +20,6 @@ import android.os.CombinedVibration
 import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
