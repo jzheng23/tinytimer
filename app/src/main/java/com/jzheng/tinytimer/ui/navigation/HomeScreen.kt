@@ -41,6 +41,13 @@ import com.jzheng.tinytimer.ui.ArrowCard
 import com.jzheng.tinytimer.ui.SwitchCard
 import com.jzheng.tinytimer.ui.usePollState
 import androidx.core.net.toUri
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import com.jzheng.tinytimer.tools.MyDailyWorker
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 
 @Composable
@@ -100,7 +107,12 @@ fun HomeScreen(
                         SwitchCard(
                             desc = "Show current session length",
                             isChecked = isTimerEnabled,
-                            onCheckedChange = { sharedViewModel.updateTimerEnabled(it) }
+                            onCheckedChange = {
+                                sharedViewModel.updateTimerEnabled(it)
+                                if (it) {
+                                    scheduleDailyMaintenance(context)
+                                }
+                            }
                         )
 
                         Button(
@@ -207,4 +219,42 @@ fun getVersionName(context: Context): String {
         // Handle the exception if the package name is not found
         "Not Found"
     }
+}
+
+fun scheduleDailyMaintenance(context: Context, initialDelayInput: Long = 0L) {
+    val myWorkManager = WorkManager.getInstance(context)
+
+    val initialDelay = if (initialDelayInput == 0L) {
+        getInitialDelay()
+    } else {
+        initialDelayInput
+    }
+    val workRequest = PeriodicWorkRequestBuilder<MyDailyWorker>(24, TimeUnit.HOURS)
+        .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+        .build()
+    myWorkManager.enqueueUniquePeriodicWork(
+        "daily_maintenance",
+        ExistingPeriodicWorkPolicy.UPDATE, // KEEP or UPDATE
+        workRequest
+    )
+//    val workInfo = myWorkManager.getWorkInfoById(workRequest.id)
+//    val workState = workInfo.get()?.state
+//    Log.d("workManager", "scheduled! $workState id ${workRequest.id}")
+}
+
+fun getInitialDelay(): Long {
+    val currentDate = Calendar.getInstance()
+    val hourInt = 3
+    val randomInt = Random.nextInt(0, 60)
+    val dueDate = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, hourInt)
+        set(Calendar.MINUTE, randomInt)
+        set(Calendar.SECOND, 0)
+        // If it's after or equal 3 AM, schedule for the next day
+        if (before(currentDate)) {
+            add(Calendar.HOUR_OF_DAY, 24)
+        }
+    }
+//    Log.d("workManager", "Set at $hourInt:$randomInt")
+    return dueDate.timeInMillis - currentDate.timeInMillis
 }
