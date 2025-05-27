@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -32,19 +33,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.navigation.NavHostController
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.jzheng.tinytimer.R
 import com.jzheng.tinytimer.data.Constants.defaultPadding
 import com.jzheng.tinytimer.service.TimerService
+import com.jzheng.tinytimer.tools.MyDailyWorker
 import com.jzheng.tinytimer.tools.MyPermissionManager
 import com.jzheng.tinytimer.ui.ArrowCard
 import com.jzheng.tinytimer.ui.SwitchCard
 import com.jzheng.tinytimer.ui.usePollState
-import androidx.core.net.toUri
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import com.jzheng.tinytimer.tools.MyDailyWorker
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
@@ -121,6 +123,12 @@ fun HomeScreen(
                         ) {
                             Text(text = "Attention signals")
                         }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text(
+                            text = "TinyTimer is a demo of the full-version of TIMER. It does not collect any data from you. Enable the timer by turning on ''Show current session length''. The attention signals are customizable and optional.",
+                        )
                     }
 
                     LogoAndContact()
