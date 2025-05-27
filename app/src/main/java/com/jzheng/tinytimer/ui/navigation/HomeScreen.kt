@@ -127,7 +127,7 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = "TinyTimer is a demo of the full-version of TIMER. It does not collect any data from you. Enable the timer by turning on ''Show current session length''. The attention signals are customizable and optional.",
+                            text = "TinyTimer is a demo of the full-version of TIMER. It does not collect any data from you. Enable the timer by turning on ''Show current session length''. The attention signals are customizable and optional. If the timer is not working, disable and then re-enable ''Show current session length''.",
                         )
                     }
 
