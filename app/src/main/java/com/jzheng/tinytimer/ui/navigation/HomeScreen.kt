@@ -78,19 +78,28 @@ fun HomeScreen(
                 .padding(paddingValues),
         ) {
             if (!notificationAllowed) {
-                ArrowCard(
-                    title = "Permission",
-                    desc = "Please grant notification permission to TinyTimer",
-                    onAuthClick = {
-                        MyPermissionManager.requestNotificationPermission(context)
-                        context.startForegroundService(
-                            Intent(
-                                context,
-                                TimerService::class.java
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(defaultPadding * 2),
+                    verticalArrangement = Arrangement.Top
+                ) {
+                    ArrowCard(
+                        title = "Permission",
+                        desc = "Please grant notification permission to TinyTimer",
+                        onAuthClick = {
+                            MyPermissionManager.requestNotificationPermission(context)
+                            context.startForegroundService(
+                                Intent(
+                                    context,
+                                    TimerService::class.java
+                                )
                             )
-                        )
-                    }
-                )
+                        }
+                    )
+                }
+
+
             } else {
                 Column(
                     modifier = Modifier
